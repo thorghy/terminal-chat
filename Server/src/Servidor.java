@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 
 import codigos.CodigosRespuesta;
+import codigos.CodigosSolicitud;
 
 public class Servidor {
     ArrayList<Sala> salasActivas = new ArrayList<>();
@@ -10,7 +11,8 @@ public class Servidor {
     public void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(6767)) {
             while (true) {
-                new HiloSocket(serverSocket.accept(), this).start();;
+                new HiloSocket(serverSocket.accept(), this).start();
+                ;
                 System.out.println("Un nuevo usuario se ha unido");
             }
 
@@ -42,7 +44,7 @@ public class Servidor {
         Sala sala;
         if (salaExiste(nombre)) {
             sala = findSala(nombre);
-            if (validarContrasenaSala(sala, contrasena)) {
+            if (sala.validarContrasenaSala(contrasena)) {
                 salasActivas.remove(sala);
                 return CodigosRespuesta.OK;
             } else {
@@ -55,7 +57,8 @@ public class Servidor {
     private boolean salaExiste(String nombre) {
         if (!salasActivas.isEmpty()) {
             for (Sala sala : salasActivas) {
-                if (sala.getNombre().equals(nombre)) return true;
+                if (sala.getNombre().equals(nombre))
+                    return true;
             }
         }
         return false;
@@ -63,12 +66,10 @@ public class Servidor {
 
     private Sala findSala(String nombre) {
         for (Sala sala : salasActivas) {
-            if (sala.getNombre().equals(nombre)) return sala;
+            if (sala.getNombre().equals(nombre))
+                return sala;
         }
         return null;
-    }
-    private boolean validarContrasenaSala(Sala sala, String contrasena) {
-        return sala.getContrasena().equals(contrasena);
     }
 
     public CodigosRespuesta unirMiembro(Sala sala, String miembro) {
@@ -79,12 +80,23 @@ public class Servidor {
         }
     }
 
+    public CodigosRespuesta solicitarUnirMiembro(String nombreSala, String contrasena, String miembro) {
+        Sala sala = findSala(nombreSala);
+
+        if (sala.validarContrasenaSala(contrasena)) {
+            return unirMiembro(sala, miembro);
+        } else {
+            return CodigosRespuesta.CONTRASEÑA_INCORRECTA;
+        }
+    }
+
     public CodigosRespuesta expulsarMiembro(Sala sala, String miembro) {
         if (salasActivas.contains(sala)) {
             return findSala(miembro).expulsarMiembro(miembro);
         } else {
             return CodigosRespuesta.SALA_NO_EXISTE;
         }
-        
     }
+
+    
 }

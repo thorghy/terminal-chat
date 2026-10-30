@@ -53,4 +53,8 @@ public class Sala {
     public boolean miembroPresente(String nombre) {
         return Miembros.contains(nombre);
     }
+
+    public boolean validarContrasenaSala(String contrasena) {
+        return getContrasena().equals(contrasena);
+    }
 }

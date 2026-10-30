@@ -78,7 +78,10 @@ public class HiloSocket extends Thread {
                         responderConsulta(resultado);
                         break;
                     case "UNIRSE_SALA":
+                        nombreSala = inputCliente.readLine();
+                        contraSala = inputCliente.readLine();
 
+                        //resultado = servidor.solicitarUnirMiembro(nombreSala, contraSala, contraSala);
                         break;
                     case "SALIR_SALA":
 
