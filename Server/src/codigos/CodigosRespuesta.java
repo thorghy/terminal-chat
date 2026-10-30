@@ -6,7 +6,9 @@ public enum CodigosRespuesta {
     ERROR(400, "ERROR"),
     CONTRASEÑA_INCORRECTA(401, "Contraseña incorrecta."),
     SALA_YA_EXISTE(451, "La sala ya existe."),
-    SALA_AUN_NO_EXISTE(452, "La sala aún no existe.");
+    SALA_NO_EXISTE(452, "La sala aún no existe."),
+    MIEMBRO_PRESENTE_SALA(461, "El miembro ya se encuentra en la sala."),
+    MIEMBRO_NO_PRESENTE_SALA(462, "El miembro no está aún en la sala.");
 
     private final int codigo;
     private final String descripcion;

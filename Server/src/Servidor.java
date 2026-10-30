@@ -49,7 +49,7 @@ public class Servidor {
                 return CodigosRespuesta.CONTRASEÑA_INCORRECTA;
             }
         }
-        return CodigosRespuesta.SALA_AUN_NO_EXISTE;
+        return CodigosRespuesta.SALA_NO_EXISTE;
     }
 
     private boolean salaExiste(String nombre) {
@@ -69,5 +69,22 @@ public class Servidor {
     }
     private boolean validarContrasenaSala(Sala sala, String contrasena) {
         return sala.getContrasena().equals(contrasena);
+    }
+
+    public CodigosRespuesta unirMiembro(Sala sala, String miembro) {
+        if (!salasActivas.contains(sala)) {
+            return findSala(miembro).unirMiembro(miembro);
+        } else {
+            return CodigosRespuesta.SALA_NO_EXISTE;
+        }
+    }
+
+    public CodigosRespuesta expulsarMiembro(Sala sala, String miembro) {
+        if (salasActivas.contains(sala)) {
+            return findSala(miembro).expulsarMiembro(miembro);
+        } else {
+            return CodigosRespuesta.SALA_NO_EXISTE;
+        }
+        
     }
 }

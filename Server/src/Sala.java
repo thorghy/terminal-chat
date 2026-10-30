@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import codigos.CodigosRespuesta;
+
 public class Sala {
     private ArrayList<Mensaje> Historial;
     private ArrayList<String> Miembros;
@@ -28,24 +30,27 @@ public class Sala {
         return Contrasena;
     }
 
-    public boolean unirMiembro(String miembro) {
-        if (Miembros.indexOf(miembro) != -1) {
-            // miembro ya está en la Sala
-            return false;
+    public CodigosRespuesta unirMiembro(String miembro) {
+        if (miembroPresente(miembro)) {
+            // miembro ya está en la sala
+            return CodigosRespuesta.MIEMBRO_PRESENTE_SALA;
         } else {
             Miembros.add(miembro);
-            return true;
+            return CodigosRespuesta.OK;
         }
     }
 
-    public boolean expulsarMiembro(String miembro) {
-        int encontrado;
-        if ((encontrado = Miembros.indexOf(miembro)) == -1) {
-            // miembro aún no está en la Sala
-            return false;
+    public CodigosRespuesta expulsarMiembro(String miembro) {
+        if (!miembroPresente(miembro)) {
+            // miembro aún no está en la sala
+            return CodigosRespuesta.MIEMBRO_NO_PRESENTE_SALA;
         } else {
-            Miembros.remove(encontrado);
-            return true;
+            Miembros.remove(miembro);
+            return CodigosRespuesta.OK;
         }
+    }
+
+    public boolean miembroPresente(String nombre) {
+        return Miembros.contains(nombre);
     }
 }
