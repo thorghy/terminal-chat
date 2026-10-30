@@ -7,8 +7,10 @@ public enum CodigosRespuesta {
     CONTRASEÑA_INCORRECTA(401, "Contraseña incorrecta."),
     SALA_YA_EXISTE(451, "La sala ya existe."),
     SALA_NO_EXISTE(452, "La sala aún no existe."),
-    MIEMBRO_PRESENTE_SALA(461, "El miembro ya se encuentra en la sala."),
-    MIEMBRO_NO_PRESENTE_SALA(462, "El miembro no está aún en la sala.");
+    USUARIO_PRESENTE_SALA(461, "El usuario ya se encuentra en la sala."),
+    USUARIO_NO_PRESENTE_SALA(462, "El usuario no está aún en la sala."),
+    USUARIO_NO_EXISTE(456, "El usuario no existe."),
+    USUARIO_YA_EXISTE(456, "El usuario ya existe.");
 
     private final int codigo;
     private final String descripcion;

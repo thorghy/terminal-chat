@@ -4,7 +4,7 @@ import codigos.CodigosRespuesta;
 
 public class Sala {
     private ArrayList<Mensaje> Historial;
-    private ArrayList<String> Miembros;
+    private ArrayList<String> Usuarios;
 
     private String Nombre;
     private String Contrasena;
@@ -19,7 +19,7 @@ public class Sala {
     }
 
     public ArrayList<String> getMiembros() {
-        return Miembros;
+        return Usuarios;
     }
 
     public String getNombre() {
@@ -30,31 +30,31 @@ public class Sala {
         return Contrasena;
     }
 
-    public CodigosRespuesta unirMiembro(String miembro) {
-        if (miembroPresente(miembro)) {
+    public CodigosRespuesta unirUsuario(String miembro) {
+        if (usuarioPresente(miembro)) {
             // miembro ya está en la sala
-            return CodigosRespuesta.MIEMBRO_PRESENTE_SALA;
+            return CodigosRespuesta.USUARIO_PRESENTE_SALA;
         } else {
-            Miembros.add(miembro);
+            Usuarios.add(miembro);
             return CodigosRespuesta.OK;
         }
     }
 
-    public CodigosRespuesta expulsarMiembro(String miembro) {
-        if (!miembroPresente(miembro)) {
+    public CodigosRespuesta expulsarUsuario(String miembro) {
+        if (!usuarioPresente(miembro)) {
             // miembro aún no está en la sala
-            return CodigosRespuesta.MIEMBRO_NO_PRESENTE_SALA;
+            return CodigosRespuesta.USUARIO_NO_PRESENTE_SALA;
         } else {
-            Miembros.remove(miembro);
+            Usuarios.remove(miembro);
             return CodigosRespuesta.OK;
         }
     }
 
-    public boolean miembroPresente(String nombre) {
-        return Miembros.contains(nombre);
+    public boolean usuarioPresente(String nombre) {
+        return Usuarios.contains(nombre);
     }
 
-    public boolean validarContrasenaSala(String contrasena) {
+    public boolean validarContrasena(String contrasena) {
         return getContrasena().equals(contrasena);
     }
 }

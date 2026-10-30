@@ -33,6 +33,8 @@ public class HiloSocket extends Thread {
                 String codigo = inputCliente.readLine();
                 System.out.println(clienteIP + ":" + clientePuerto + ": " + codigo);
 
+                
+
                 String nombreSala;
                 String contraSala;
 

@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class Miembro {
+public class Usuario {
     private String nombre;
     private String contrasena;
     private ArrayList<String> salas;
 
-    public Miembro(String nombre, String contrasena) {
+    public Usuario(String nombre, String contrasena) {
         this.nombre = nombre;
         this.contrasena = contrasena;
 

@@ -7,7 +7,7 @@ import codigos.CodigosSolicitud;
 
 public class Servidor {
     ArrayList<Sala> salasActivas = new ArrayList<>();
-    ArrayList<Miembro> miembros = new ArrayList<>();
+    ArrayList<Usuario> miembros = new ArrayList<>();
 
     public void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(6767)) {
@@ -45,7 +45,7 @@ public class Servidor {
         Sala sala;
         if (salaExiste(nombre)) {
             sala = findSala(nombre);
-            if (sala.validarContrasenaSala(contrasena)) {
+            if (sala.validarContrasena(contrasena)) {
                 salasActivas.remove(sala);
                 return CodigosRespuesta.OK;
             } else {
@@ -73,39 +73,65 @@ public class Servidor {
         return null;
     }
 
-    private Miembro findMiembro(String nombre) {
-        for (Miembro miembro : miembros) {
-            if (miembro.getNombre().equals(nombre)) 
+    private Usuario findUsuario(String nombre) {
+        for (Usuario miembro : miembros) {
+            if (miembro.getNombre().equals(nombre))
                 return miembro;
         }
         return null;
     }
 
-    public CodigosRespuesta unirMiembro(Sala sala, String miembro) {
+    public CodigosRespuesta unirUsuarioSala(Sala sala, String miembro) {
         if (!salasActivas.contains(sala)) {
-            return findSala(miembro).unirMiembro(miembro);
+            return findSala(miembro).unirUsuario(miembro);
         } else {
             return CodigosRespuesta.SALA_NO_EXISTE;
         }
     }
 
-    public CodigosRespuesta solicitarUnirMiembro(String nombreSala, String contrasena, String miembro) {
+    public CodigosRespuesta solicitarUnirUsuarioSala(String nombreSala, String contrasena, String miembro) {
         Sala sala = findSala(nombreSala);
 
-        if (sala.validarContrasenaSala(contrasena)) {
-            return unirMiembro(sala, miembro);
+        if (sala.validarContrasena(contrasena)) {
+            return unirUsuarioSala(sala, miembro);
         } else {
             return CodigosRespuesta.CONTRASEÑA_INCORRECTA;
         }
     }
 
-    public CodigosRespuesta expulsarMiembro(Sala sala, String miembro) {
+    public CodigosRespuesta expulsarUsuarioSala(Sala sala, String miembro) {
         if (salasActivas.contains(sala)) {
-            return findSala(miembro).expulsarMiembro(miembro);
+            return findSala(miembro).expulsarUsuario(miembro);
         } else {
             return CodigosRespuesta.SALA_NO_EXISTE;
         }
     }
 
-    
+    public CodigosRespuesta crearUsuario(String nombre, String contrasena) {
+        if (findUsuario(nombre) == null) {
+            miembros.add(new Usuario(nombre, contrasena));
+            return CodigosRespuesta.OK;
+        } else {
+            return CodigosRespuesta.USUARIO_YA_EXISTE;
+        }
+    }
+
+    public CodigosRespuesta eliminarUsuario(Usuario usuario) {
+        miembros.remove(usuario);
+        return CodigosRespuesta.OK;
+    }
+
+    public CodigosRespuesta solicitarEliminarUsuario(String nombre, String contrasena) {
+        Usuario usuario = findUsuario(nombre);
+
+        if (usuario != null) {
+            if (usuario.validarContrasena(contrasena)) {
+                return eliminarUsuario(usuario);
+            } else {
+                return CodigosRespuesta.CONTRASEÑA_INCORRECTA;
+            }
+        } else {
+            return CodigosRespuesta.USUARIO_YA_EXISTE;
+        }
+    }
 }
