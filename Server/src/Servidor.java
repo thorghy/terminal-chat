@@ -7,6 +7,7 @@ import codigos.CodigosSolicitud;
 
 public class Servidor {
     ArrayList<Sala> salasActivas = new ArrayList<>();
+    ArrayList<Miembro> miembros = new ArrayList<>();
 
     public void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(6767)) {
@@ -68,6 +69,14 @@ public class Servidor {
         for (Sala sala : salasActivas) {
             if (sala.getNombre().equals(nombre))
                 return sala;
+        }
+        return null;
+    }
+
+    private Miembro findMiembro(String nombre) {
+        for (Miembro miembro : miembros) {
+            if (miembro.getNombre().equals(nombre)) 
+                return miembro;
         }
         return null;
     }
